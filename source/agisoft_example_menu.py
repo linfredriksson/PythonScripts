@@ -1,3 +1,6 @@
+#
+# File should be placed in "%USERNAME%\AppData\Local\Agisoft\PhotoScan Pro\scripts" for agisoft to load it at startup
+#
 import PhotoScan
 
 def function1():
