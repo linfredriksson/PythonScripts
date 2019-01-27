@@ -26,7 +26,7 @@ def saveFile(filename, content):
 def createHTML(data):
     html = "<html><head></head><body>"
     for d in data:
-        html += "<p><a href='%s'>%s</a></p>" % (d[0], d[0])
+        html += "<p><a href='http://%s'>%s</a></p>" % (d[0], d[0])
     html += "</body></html>"
     return html
 
