@@ -32,7 +32,7 @@ def hasEmbeddedThumbnail(path):
 def main():
     if len(sys.argv) < 2:
         print("Missing arguments")
-        print("Example Use: 'python filename.py path/to/video'")
+        print("Example Use: 'python has_embedded_thumbnail.py path/to/video'")
         return
     if not os.path.exists(sys.argv[1]):
         print("File not found")
