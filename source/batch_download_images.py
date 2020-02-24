@@ -21,8 +21,9 @@ def parseData(data):
         "paths": []}
     for line in data:
         tmp = line.strip()
-        if '<a href="/Comic/' in tmp and '?id=' in tmp:
-            title, issue = tmp.replace('<a href="/Comic/', "").split('/')
+        if "https://readcomiconline.to/Comic/" in tmp and "?id=" in tmp:
+            title, issue = tmp.replace(
+                "var disqus_url = 'https://readcomiconline.to/Comic/", "").split('/')
             issue = issue.split('?id=')[0]
             title = title.replace("-", "_")
             issue = issue.replace("-", "_")
