@@ -14,18 +14,29 @@ def readFile(path):
 
 def parseData(data):
     if data is None:
-        print "Unable to parse data"
         return None
-    result = []
+    result = {
+        "title": "",
+        "issue": "",
+        "paths": []}
     for line in data:
         tmp = line.strip()
+        if '<a href="/Comic/' in tmp and '?id=' in tmp:
+            title, issue = tmp.replace('<a href="/Comic/', "").split('/')
+            issue = issue.split('?id=')[0]
+            title = title.replace("-", "_")
+            issue = issue.replace("-", "_")
+            title = title.lower()
+            issue = issue.lower()
+            result["title"] = title
+            result["issue"] = issue
         if '.push("https://' not in tmp:
             continue
         id0 = tmp.find('"')
         id1 = tmp.find('"', id0 + 1)
         if id0 == -1 or id1 == -1:
             continue
-        result.append(tmp[id0+1:id1])
+        result["paths"].append(tmp[id0+1:id1])
     return result
 
 
@@ -39,12 +50,24 @@ def download(image_url, out_path):
 
 def main():
     filename = "data.txt"
-    image_name = "page_%s.png"
-    data = readFile(filename)
-    paths = parseData(data)
-    for i in range(len(paths)):
-        download(paths[i], image_name % str(i))
-    print "Done"
+    data = parseData(readFile(filename))
+    if data is None:
+        print("Unable to parse data")
+        return
+    directory = os.path.join(data["title"], data["issue"])
+    print("Title: %s" % data["title"])
+    print("Issue: %s" % data["issue"])
+    print("Creating directory: %s" % directory)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    for i in range(len(data["paths"])):
+        print("Downloading image %i/%i" % (i + 1, len(data["paths"])))
+        tmp_path = os.path.join(directory, "page_%s.png" % str(i))
+        if os.path.exists(tmp_path):
+            print("Image already exists, skipping")
+            continue
+        download(data["paths"][i], tmp_path)
+    print("Done")
 
 
 main()
