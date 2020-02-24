@@ -14,7 +14,7 @@ def readMetaAsJson(path):
 
 
 def hasEmbeddedThumbnail(path):
-    data = readMetaAsJson(sys.argv[1])
+    data = readMetaAsJson(path)
     if "streams" not in data:
         print("Unable to read streams")
         return False
